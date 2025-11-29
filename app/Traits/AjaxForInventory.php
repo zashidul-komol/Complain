@@ -1,11 +1,11 @@
 <?php
 namespace App\Traits;
-use App\Allocation;
-use App\DepotUser;
-use App\DfCode;
-use App\Item;
-use App\Stock;
-use App\StockTransfer;
+use App\Models\Allocation;
+use App\Models\DepotUser;
+use App\Models\DfCode;
+use App\Models\Item;
+use App\Models\Stock;
+use App\Models\StockTransfer;
 
 trait AjaxForInventory {
 

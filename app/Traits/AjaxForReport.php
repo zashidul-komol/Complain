@@ -1,6 +1,6 @@
 <?php
 namespace App\Traits;
-use App\Location;
+use App\Models\Location;
 use App\Repositories\Models\DepotRepository;
 use App\Repositories\Models\TechnicianRepository;
 use Illuminate\Http\Request;

@@ -1,16 +1,16 @@
 <?php
 
 namespace App\Traits;
-use App\ComplainType;
-use App\DamageApplication;
-use App\Depot;
-use App\DepotUser;
-use App\DfProblem;
-use App\DistributorUser;
-use App\Item;
-use App\ProblemType;
-use App\Shop;
-use App\Stage;
+use App\Models\ComplainType;
+use App\Models\DamageApplication;
+use App\Models\Depot;
+use App\Models\DepotUser;
+use App\Models\DfProblem;
+use App\Models\DistributorUser;
+use App\Models\Item;
+use App\Models\ProblemType;
+use App\Models\Shop;
+use App\Models\Stage;
 use Illuminate\Http\Request;
 
 trait AjaxForService {

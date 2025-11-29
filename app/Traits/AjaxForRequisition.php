@@ -1,14 +1,14 @@
 <?php
 namespace App\Traits;
-use App\Bkash;
-use App\Brand;
-use App\DfReturn;
-use App\Document;
-use App\Item;
-use App\PhysicalVisit;
-use App\Requisition;
-use App\Shop;
-use App\Stage;
+use App\Models\Bkash;
+use App\Models\Brand;
+use App\Models\DfReturn;
+use App\Models\Document;
+use App\Models\Item;
+use App\Models\PhysicalVisit;
+use App\Models\Requisition;
+use App\Models\Shop;
+use App\Models\Stage;
 use App\Traits\BkashTrait;
 use App\Traits\SmsTrait;
 use App\Traits\StockCheckTrait;
