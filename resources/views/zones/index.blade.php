@@ -40,11 +40,11 @@
                           <tr>
                             <td>{{$i}}</td>
                             @if ($param=='1')
-                            	<td>{{$data->parent->name or ''}}</td>
+                            	<td>{{$data->parent->name ?? ''}}</td>
                             @endif
                             <td>{{$data->name}}</td>
                             @if (!$param)
-                              <td>{{$data->code or ''}}</td>
+                              <td>{{$data->code ?? ''}}</td>
                             @endif
                             <td>
                               {!!  Html::decode(link_to_route('zones.edit', '<span aria-hidden="true" class="fa fa-edit fa-x"></span>', array($data->id,$param?$param:'')))!!}

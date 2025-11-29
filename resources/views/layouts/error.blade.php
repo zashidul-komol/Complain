@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <title>{{ $site_settings->site_title or 'Dhaka Ice Cream Industries Ltd.' }}</title>
+    <title>{{ $site_settings->site_title ?? 'Dhaka Ice Cream Industries Ltd.' }}</title>
     @include('common_pages.favicon')
     <!--BASIC css-->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">

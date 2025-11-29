@@ -40,15 +40,24 @@
                           <tr>
                             <td>{{$i}}</td>
                              @if ($param=='1')
-                            	<td>{{$data->parent->name or ''}}</td>
+                            	<td>{{$data->parent->name ?? ''}}</td>
                             @elseif($param=='2')
-                            	<td>{{$data->parent->parent->name or ''}}</td>
-                            	<td>{{$data->parent->name or ''}}</td>
+                            	<td>{{$data->parent->parent->name ?? ''}}</td>
+                            	<td>{{$data->parent->name ?? ''}}</td>
                             @endif
                             <td>{{$data->name}}</td>
                             <td>
                               {!!  Html::decode(link_to_route('locations.edit', '<span aria-hidden="true" class="fa fa-edit fa-x"></span>', array($data->id,$param?$param:'')))!!}
-                              {!! Form::delete(route('locations.destroy',array($data->id,'level'=>$param))) !!}
+                            
+                            {{ Form::open(array('route' => array('locations.destroy', 'remove-id'),'method'=>'DELETE','id'=>'del-form')) }}
+      <div class="modal-body">
+        {{Form::select('designation_id',[],null,array('class' => 'form-control', 'id'=>'selectBox'))}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        {{ Form::submit('Confirm Delete',array('class'=>'btn btn-primary'))}}
+      </div>
+      {{ Form::close() }}
                             </td>
                           </tr>
                           @php ($i=$i+1)

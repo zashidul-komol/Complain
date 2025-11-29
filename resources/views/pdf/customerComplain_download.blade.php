@@ -115,7 +115,7 @@
         <td>Note : This is a computer generated process, so no required any signature.</td>
     </tr>
     <tr>
-        <td>Complain Number : {{$CustomerComplains[0]->id or ''}}</td>
+        <td>Complain Number : {{$CustomerComplains[0]->id ?? ''}}</td>
     </tr>
 </table>
 </body>

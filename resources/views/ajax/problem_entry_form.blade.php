@@ -36,27 +36,27 @@
     </tr>
      <tr>
       <th>Depot</th>
-      <td>{{ $item->depot->name or '' }}</td>
+      <td>{{ $item->depot->name ?? '' }}</td>
     </tr>
     <tr>
       <th>Outlet</th>
-      <td>{{ $item->shop->outlet_name or '' }}</td>
+      <td>{{ $item->shop->outlet_name ?? '' }}</td>
     </tr>
     <tr>
       <th>Proprietor</th>
-      <td>{{ $item->shop->proprietor_name or '' }}</td>
+      <td>{{ $item->shop->proprietor_name ?? '' }}</td>
     </tr>
     <tr>
       <th>Mobile</th>
-      <td>{{ $item->shop->mobile or '' }}</td>
+      <td>{{ $item->shop->mobile ?? '' }}</td>
     </tr>
     <tr>
       <th>Address</th>
-      <td>{{ $item->shop->address or '' }}</td>
+      <td>{{ $item->shop->address ?? '' }}</td>
     </tr>
     <tr>
       <th>DF Size</th>
-      <td>DF-{{ $item->size->name or '' }}</td>
+      <td>DF-{{ $item->size->name ?? '' }}</td>
     </tr>
   </table>
   <div class="row">

@@ -51,7 +51,7 @@
                     @foreach($value['stage_details'] as $vl)
                       <tr>
                         <td class="text-center">{{$loop->iteration}}</td>
-                        <td>{{$vl->designation->short_name or ''}}</td>
+                        <td>{{$vl->designation->short_name ?? ''}}</td>
                         <td class="text-capitalize">
                         	@php
                         		$actionsArr = json_decode($vl->actions,true);
