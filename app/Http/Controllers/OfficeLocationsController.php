@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\OfficeLocation;
+use App\Models\OfficeLocation;
 use Illuminate\Http\Request;
 
 class OfficeLocationsController extends Controller

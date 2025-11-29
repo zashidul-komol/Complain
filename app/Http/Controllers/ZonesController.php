@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Exports\ZoneExport;
-use App\Zone;
+use App\Models\Zone;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 

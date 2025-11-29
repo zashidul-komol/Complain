@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Exports\LocationExport;
-use App\Location;
+use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\CustomerComplainType;
+use App\Models\CustomerComplainType;
 use Illuminate\Http\Request;
 
 class CustomerComplainTypesController extends Controller
