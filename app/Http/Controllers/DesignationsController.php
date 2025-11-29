@@ -78,7 +78,8 @@ class DesignationsController extends Controller {
 			'status' => 'required',
 		]);
 
-		$designations = Designation::where('id', $id)->update($data);
+		$designations = Designation::findOrFail($id);
+		$designations->update($data);
 		if ($designations) {
 			$message = "You have successfully updated";
 			return redirect()->route('designations.index', [])

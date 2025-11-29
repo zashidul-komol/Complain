@@ -1,17 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\DfReturnLog;
-use App\Location;
-use App\RequisitionLog;
-use App\Shop;
-use App\SmsPromotional;
+use App\Models\DfReturnLog;
+use App\Models\Location;
+use App\Models\RequisitionLog;
+use App\Models\Shop;
+use App\Models\SmsPromotional;
 use App\Traits\AjaxForInventory;
 use App\Traits\AjaxForReport;
 use App\Traits\AjaxForRequisition;
 use App\Traits\AjaxForReturn;
 use App\Traits\AjaxForService;
-use App\Zone;
+use App\Models\Zone;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 

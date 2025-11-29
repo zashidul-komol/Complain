@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 
-use App\Location;
-use App\Designation;
-use App\User;
-use App\Role;
-use App\Product;
-use App\CustomerComplain;
-use App\CustomerComplainLog;
-use App\CustomerComplainType;
-use App\ComplainCategory;
-use App\ComplainSubcategory;
+use App\Models\Location;
+use App\Models\Designation;
+use App\Models\User;
+use App\Models\Role;
+use App\Models\Product;
+use App\Models\CustomerComplain;
+use App\Models\CustomerComplainLog;
+use App\Models\CustomerComplainType;
+use App\Models\ComplainCategory;
+use App\Models\ComplainSubcategory;
 use App\Traits\HasStageExists;
 use DB;
 use Carbon\Carbon;

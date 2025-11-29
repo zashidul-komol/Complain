@@ -92,7 +92,8 @@ class RegionsController extends Controller
             'status' => 'required',
         ]);
 
-        $regions = Region::where('id', $id)->update($data);
+        $regions = Region::findOrFail($id);
+        $regions->update($data);
         if ($regions) {
             $message = "You have successfully updated";
             return redirect()->route('regions.index', [])

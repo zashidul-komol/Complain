@@ -3,15 +3,9 @@
     <div class="leftside-header">
         <div class="logo">
             <h4>
-               <a href="{{ route('dashboard') }}"> {{ $site_settings->site_title or '' }} </a>
+               <a href="{{ route('dashboard') }}"> {{ $site_settings->site_title ?? '' }} </a>
             </h4>
-            {{-- <a href="{{ route('dashboard') }}">
-                @if(!empty($site_settings->logo))
-                    <img alt="logo" src="{{ asset('storage/images/'.$site_settings->logo) }}" />
-                @else
-                    <img alt="logo" src="{{ asset('storage/images/header-logo.png') }}" />
-                @endif
-            </a> --}}
+
         </div>
         <div id="menu-toggle" class="visible-xs toggle-left-sidebar" data-toggle-class="left-sidebar-open" data-target="html">
             <i class="fa fa-bars" aria-label="Toggle sidebar"></i>

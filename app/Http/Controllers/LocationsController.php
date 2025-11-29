@@ -154,7 +154,8 @@ class LocationsController extends Controller {
             ]);
         }
 
-        $locations = Location::where('id', $id)->update($data);
+        $locations = Location::findOrFail($id);
+        $locations->update($data);
         if ($locations) {
             $message = "You have successfully updated";
             return redirect()->route('locations.index', [$data['level'] ? $data['level'] : ''])

@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Brand;
+use App\Models\Brand;
 //use App\Location;
 //use App\Zone;
-use App\Depot;
-use App\Item;
-use App\Settlement;
-use App\Shop;
-use App\Size;
-use App\StockDetail;
+use App\Models\Depot;
+use App\Models\Item;
+use App\Models\Settlement;
+use App\Models\Shop;
+use App\Models\Size;
+use App\Models\StockDetail;
 use App\Traits\PhpExcelFormater;
 use Carbon\Carbon;
 use Illuminate\Http\Request;

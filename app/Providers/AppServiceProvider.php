@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use DB;
 use Event;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider {
 	/**
@@ -26,6 +27,14 @@ class AppServiceProvider extends ServiceProvider {
 	    if (env('APP_ENV') === 'local') {
 	        DB::connection()->enableQueryLog();        
 	    }
+
+		// Register snake_case helper if it doesn't exist
+		if (!function_exists('snake_case')) {
+			function snake_case($value, $delimiter = '_')
+			{
+				return Str::snake($value, $delimiter);
+			}
+		}
 	}
 
 	/**

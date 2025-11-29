@@ -22,13 +22,14 @@
         <div class="panel">
             <div class="panel-content">
                 <div class="table-responsive">
-                    <table id="basic-table" class="data-table table table-striped nowrap table-hover" cellspacing="0" width="100%">
+                    <table id="basic-table" class="data-table table table-striped nowrap table-hover" cellspacing="0" width="98%">
                         <thead>
                           <tr>
                             <th class="no-sort">Name</th>
                             <th class="no-sort">Email</th>
                             <th class="no-sort">Mobile</th>
                             <th>Username</th>
+                            <th>Region</th>
                             <th>Designation</th>
                             <th>Role</th>
                             <th class="no-sort">Action</th>
@@ -38,17 +39,20 @@
                           @php ($i=1)
                           @foreach ($users as $data)
                             <tr>
-                            <td>{{$data->name or ''}}</td>
+                            <td>{{$data->name ?? ''}}</td>
                             <td>{{$data->email}}</td>
                             <td>{{$data->mobile}}</td>
-                            <td>{{$data->username or ''}}</td>
-                            <td>{{$data->designation->title or ''}}</td>
-                            <td>{{$data->role->name or ''}}</td>
+                            <td>{{$data->username ?? ''}}</td>
+                            <td>{{$data->region->name ?? ''}}</td>
+                            <td>{{$data->designation->title ?? ''}}</td>
+                            <td>{{$data->role->name ?? ''}}</td>
                             
                             <td>
                             	 {!!  Html::decode(link_to_route('password.changeUserPassword', '<span aria-hidden="true" class="fa fa-key fa-x"></span>', array($data->id)))!!}
                                  {!!  Html::decode(link_to_route('users.edit', '<span aria-hidden="true" class="fa fa-edit fa-x"></span>', array($data->id)))!!}
-                                 {!! Form::delete(route('users.destroy',array($data->id))) !!}
+                                 <span class="delete-form">
+                                     <button type="button" data-toggle="modal" data-target="#myModal" onClick="callModal('{{$data->id}}')" class='btn btn-xs delete-button'><span aria-hidden="true" class="fa fa-remove"></span></button>
+                                  </span>
                             </td>
                           </tr>
                           @php ($i=$i+1)
@@ -59,6 +63,25 @@
         </div>
     </div>
 </div>
+<div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Select any role for all the users under this role</h4>
+      </div>
+      {{ Form::open(array('route' => array('users.destroy', 'remove-id'),'method'=>'DELETE','id'=>'del-form')) }}
+      <div class="modal-body">
+        {{Form::select('user_id',[],null,array('class' => 'form-control', 'id'=>'selectBox'))}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        {{ Form::submit('Confirm Delete',array('class'=>'btn btn-primary'))}}
+      </div>
+      {{ Form::close() }}
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
 @endsection
 

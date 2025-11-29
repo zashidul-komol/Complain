@@ -198,9 +198,9 @@ input:valid {
                                 @php ($i=1)
                                 @foreach ($CustomerComplainLogs as $data)
                             <tr>
-                                <td>{{$data->user->name or ''}}</td>
-                                <td>{{$data->comments or ''}}</td>
-                                <td>{{$data->updated_at or ''}}</td>
+                                <td>{{$data->user->name ?? ''}}</td>
+                                <td>{{$data->comments ?? ''}}</td>
+                                <td>{{$data->updated_at ?? ''}}</td>
                             </tr>
                                 @php ($i=$i+1)
                                 @endforeach
@@ -258,13 +258,14 @@ input:valid {
                         <label for="inputName" class="col-sm-4 ">Comments</label>
                         <div class="col-sm-7">
                             {{Form::textarea('comments',null,array('class' => 'form-control max-length','rows' => 2, 'cols' => 2,'maxlength'=>'350'))}}
-                            {!! $errors->first('title', '<p class="text-danger">:message</p>' ) !!}
+                            {!! $errors->first('comments', '<p class="text-danger">:message</p>' ) !!}
                         </div>
                     </div>
                     <div class="form-group">
                           <div class="col-sm-offset-4 col-sm-8">
                             <button type="submit" class="btn btn-primary" value="1" id="accept" name="Accept">Accept</button>
                             <button type="submit" class="btn btn-primary" value="2" id="accept" name="Accept">Edit</button>
+                            <button type="submit" class="btn btn-primary" value="3" id="accept" name="Accept">Not Accepted</button>
                           </div>
                     </div>
                 </div>

@@ -95,7 +95,8 @@ class OfficeLocationsController extends Controller
             'status' => 'required',
         ]);
 
-        $officelocations = OfficeLocation::where('id', $id)->update($data);
+        $officelocations = OfficeLocation::findOrFail($id);
+        $officelocations->update($data);
         if ($officelocations) {
             $message = "You have successfully updated";
             return redirect()->route('officelocations.index', [])

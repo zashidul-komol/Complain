@@ -28,30 +28,30 @@
   </tr>
   <tr>
     <td height="25">Date of receiving of the complaint</td>
-    <td colspan="3">{{ $CustomerComplains[0]->complain_date or '' }}</td>
+    <td colspan="3">{{ $CustomerComplains[0]->complain_date ?? '' }}</td>
   </tr>
   <tr>
     <td height="24">Name of the Complainant</td>
-    <td colspan="3">{{ $CustomerComplains[0]->complainant_name or '' }}</td>
+    <td colspan="3">{{ $CustomerComplains[0]->complainant_name ?? '' }}</td>
   </tr>
   
   <tr>
     <td height="35">Address complainant Personnel</td>
-    <td colspan="3">{{ $newAddress or '' }}</td>
+    <td colspan="3">{{ $newAddress ?? '' }}</td>
   </tr>
   
   <tr>
     <td height="24">Email complainant Personnel</td>
-    <td colspan="3">{{ $CustomerComplains[0]->complainant_email or '' }}</td>
+    <td colspan="3">{{ $CustomerComplains[0]->complainant_email ?? '' }}</td>
   </tr>
   <tr>
     <td height="23">Telephone number of the Complainant</td>
-    <td colspan="3">{{ $CustomerComplains[0]->complainant_mobile or '' }}</td>
+    <td colspan="3">{{ $CustomerComplains[0]->complainant_mobile ?? '' }}</td>
   </tr>
   
   <tr>
     <td height="22">Ways of Sending the Complaint</td>
-    <td colspan="3">{{ $CustomerComplains[0]->sending_ways or '' }}</td>
+    <td colspan="3">{{ $CustomerComplains[0]->sending_ways ?? '' }}</td>
   </tr>
   <tr>
     <td height="24">Person receiving the complainant</td>

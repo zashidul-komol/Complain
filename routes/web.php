@@ -1,187 +1,171 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\LocationsController;
+use App\Http\Controllers\SiteSettingsController;
+use App\Http\Controllers\DesignationsController;
+use App\Http\Controllers\RegionsController;
+use App\Http\Controllers\DepartmentsController;
+use App\Http\Controllers\OfficeLocationsController;
+use App\Http\Controllers\StagingsController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\RolesController;
+
 /*
- * |--------------------------------------------------------------------------
- * | Web Routes
- * |--------------------------------------------------------------------------
- * |
- * | Here is where you can register web routes for your application. These
- * | routes are loaded by the RouteServiceProvider within a group which
- * | contains the "web" middleware group. Now create something great!
- * |
- */
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/', 'HomeController@index')->name('dashboard');
-    Route::get('/home', 'HomeController@index');
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
 
-    Route::get('dashboard/Job-crud', [
-        'as' => 'dashboards.Job-crud',
-        'uses' => 'HomeController@store',
-    ]);
-    Route::get('dashboard/updateEmployee', [
-        'as' => 'dashboards.index',
-        'uses' => 'HomeController@index',
-    ]);
-    //Route::get('dashboards', 'HomeController@index');
-
-
-    Route::post('example', 'HomeController@example')->name('example');
-
-    // start for template all page , it should be remove for production
-    Route::get('pages/{name}', 'HomeController@pages')->name('template');
-    // end for template all page , it should be remove for production
-
-    /* =====================Ajax Route Start================== */
-    Route::post('get-district', 'AjaxController@getDistricts');
-    Route::post('get-thanas', 'AjaxController@getThanas');
-    Route::post('get-areas', 'AjaxController@getAreas');
-    Route::get('stage-action-oparation/{id}/{functionName}/{stage}/{module?}', 'AjaxController@stageActionOparation')->name('ajax.stage.action');
-    Route::post('stage-action-oparation-save/{module?}', 'AjaxController@saveStageAction')->name('ajax.stage.saveAction');
-
-    Route::post('get-multi-district', 'AjaxController@getMultiDistricts')->name('ajax.getMultiDistricts');
-    Route::post('get-multi-thana', 'AjaxController@getMultiThanas')->name('ajax.getMultiThanas');
-    Route::post('get-multi-distributor', 'AjaxController@getMultiDistributor')->name('ajax.getMultiDistributor');
-    Route::post('get-region-wise-depots', 'AjaxController@getRegionWiseDepots')->name('ajax.getRegionWiseDepots');
-    Route::post('get-depot-codes', 'AjaxController@getDepotCodes')->name('ajax.getDepotCodes');
-
-    Route::get('settlements-ajax/{param}/continue-list', 'AjaxController@continueList')->name('ajax.settlements.continueList');
-    Route::get('settlements-ajax/{param}/closed-list', 'AjaxController@closedList')->name('ajax.settlements.closedList');
-
-    Route::post('get-multi-technician', 'AjaxController@getMultiTechnician')->name('ajax.getMultiTechnician');
-    Route::post('profile-picture-upload', 'AjaxController@uploadProfilePicture')->name('ajax.uploadProfilePicture');
-    Route::get('get-sms-promotionals/{param?}', 'AjaxController@getPromotionalSmsWithPaginate')->name('ajax.smsPromotionals.get');
-    Route::get('get-distributors', 'AjaxController@getDistributorsWithPaginate')->name('ajax.distributor.get');
-    /* =====================Ajax route End==================== */
+Route::get('/', function () {
+    return view('welcome');
 });
 
-Route::get('logout', 'Auth\LoginController@logout');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', [HomeController::class, 'index'])->name('dashboard');
+    Route::get('/home', [HomeController::class, 'index']);
+
+    Route::get('dashboard/Job-crud', [HomeController::class, 'store'])
+        ->name('dashboards.Job-crud');
+    
+    Route::get('dashboard/updateEmployee', [HomeController::class, 'index'])
+        ->name('dashboards.index');
+
+    Route::post('example', [HomeController::class, 'example'])->name('example');
+
+    // Template pages (remove for production)
+    Route::get('pages/{name}', [HomeController::class, 'pages'])->name('template');
+
+    /* ===================== Ajax Routes ================== */
+    Route::post('get-district', [AjaxController::class, 'getDistricts']);
+    Route::post('get-thanas', [AjaxController::class, 'getThanas']);
+    Route::post('get-areas', [AjaxController::class, 'getAreas']);
+    Route::get('stage-action-oparation/{id}/{functionName}/{stage}/{module?}', [AjaxController::class, 'stageActionOparation'])
+        ->name('ajax.stage.action');
+    Route::post('stage-action-oparation-save/{module?}', [AjaxController::class, 'saveStageAction'])
+        ->name('ajax.stage.saveAction');
+
+    Route::post('get-multi-district', [AjaxController::class, 'getMultiDistricts'])
+        ->name('ajax.getMultiDistricts');
+    Route::post('get-multi-thana', [AjaxController::class, 'getMultiThanas'])
+        ->name('ajax.getMultiThanas');
+    Route::post('get-multi-distributor', [AjaxController::class, 'getMultiDistributor'])
+        ->name('ajax.getMultiDistributor');
+    Route::post('get-region-wise-depots', [AjaxController::class, 'getRegionWiseDepots'])
+        ->name('ajax.getRegionWiseDepots');
+    Route::post('get-depot-codes', [AjaxController::class, 'getDepotCodes'])
+        ->name('ajax.getDepotCodes');
+
+    Route::get('settlements-ajax/{param}/continue-list', [AjaxController::class, 'continueList'])
+        ->name('ajax.settlements.continueList');
+    Route::get('settlements-ajax/{param}/closed-list', [AjaxController::class, 'closedList'])
+        ->name('ajax.settlements.closedList');
+
+    Route::post('get-multi-technician', [AjaxController::class, 'getMultiTechnician'])
+        ->name('ajax.getMultiTechnician');
+    Route::post('profile-picture-upload', [AjaxController::class, 'uploadProfilePicture'])
+        ->name('ajax.uploadProfilePicture');
+    Route::get('get-sms-promotionals/{param?}', [AjaxController::class, 'getPromotionalSmsWithPaginate'])
+        ->name('ajax.smsPromotionals.get');
+    Route::get('get-distributors', [AjaxController::class, 'getDistributorsWithPaginate'])
+        ->name('ajax.distributor.get');
+    /* ===================== Ajax Routes End ==================== */
+});
+
+Route::get('logout', [LoginController::class, 'logout']);
 Auth::routes();
 
+
+
 Route::group(['middleware' => ['auth', 'auth.access']], function () {
-
-    Route::resource('site_settings', 'SiteSettingsController',
-        ['only' => ['edit', 'update']]);
-    Route::resource('roles', 'RolesController', ['except' => 'show']);
-
-    /*==============User start here==============*/
-    Route::get('/users', 'Auth\RegisterController@showUserLists')->name('users.index');
-    Route::get('/users/profile/{params?}', 'Auth\RegisterController@showUser')->name('users.show');
-    Route::get('/users/{user}/edit', 'Auth\RegisterController@editUser')->name('users.edit');
-    Route::put('/users/{user}', 'Auth\RegisterController@updateUser')->name('users.update');
-    Route::delete('/users/{user}', 'Auth\RegisterController@destroyUser')->name('users.destroy');
-    Route::any('/password/change-user-password/{user}', 'Auth\RegisterController@changeUserPassword')->name('password.changeUserPassword');
-    Route::any('/password/change', 'Auth\RegisterController@changePassword')->name('password.change');
-    Route::get('/users/list/download', 'Auth\RegisterController@download')->name('users.download');
-
-    /*==============User start here==============*/
-
-    /*==============location start here==============*/
-    Route::get('locations/{param?}', [
-        'as' => 'locations.index',
-        'uses' => 'LocationsController@index',
-    ]);
-    Route::get('locations/create/{param?}', [
-        'as' => 'locations.create',
-        'uses' => 'LocationsController@create',
-    ]);
-    Route::get('locations/{location}/edit/{param?}', [
-        'as' => 'locations.edit',
-        'uses' => 'LocationsController@edit',
-    ]);
-
-    Route::get("locations/download/{param}", array(
-        'uses' => 'LocationsController@Download',
-        'as' => 'locations.download',
-    ));
-    Route::resource('locations', 'LocationsController',
-        ['except' => ['index', 'show', 'create', 'edit']]);
-
-    /*==========location end here=============*/
-
-    /*============designations start here========================*/
-    Route::any('designations-sorting', [
-        'as' => 'designations.sort',
-        'uses' => 'DesignationsController@sort',
-    ]);
-    Route::get('designations/download', [
-        'as' => 'designations.download',
-        'uses' => 'DesignationsController@download',
-    ]);
-    Route::resource('designations', 'DesignationsController',
-        ['except' => ['show']]);
-    /*============designations end here========================*/
-
-    /*============departments start here========================*/
-    Route::resource('departments', 'DepartmentsController',
-        ['except' => ['show']]);
-
-    Route::get('departments/download', [
-        'as' => 'departments.download',
-        'uses' => 'DepartmentsController@download',
-    ]);
+    Route::resource('site_settings', SiteSettingsController::class)
+        ->only(['edit', 'update']);
     
-    /*============departments end here========================*/
+    Route::resource('roles', RolesController::class)
+        ->except(['show']);
 
-    /*============Office locations start here========================*/
-    Route::resource('officelocations', 'OfficeLocationsController',
-        ['except' => ['show']]);
+    /*============== User Routes ==============*/
+    Route::get('/users', [RegisterController::class, 'showUserLists'])
+        ->name('users.index');
+    Route::get('/users/profile/{params?}', [RegisterController::class, 'showUser'])
+        ->name('users.show');
+    Route::get('/users/{user}/edit', [RegisterController::class, 'editUser'])
+        ->name('users.edit');
+    Route::put('/users/{user}', [RegisterController::class, 'updateUser'])
+        ->name('users.update');
+    Route::delete('/users/{user}', [RegisterController::class, 'destroyUser'])
+        ->name('users.destroy');
+    Route::any('/password/change-user-password/{user}', [RegisterController::class, 'changeUserPassword'])
+        ->name('password.changeUserPassword');
+    Route::any('/password/change', [RegisterController::class, 'changePassword'])
+        ->name('password.change');
+    Route::get('/users/list/download', [RegisterController::class, 'download'])
+        ->name('users.download');
 
-    Route::get('officelocations/download', [
-        'as' => 'officelocations.download',
-        'uses' => 'OfficeLocationsController@download',
-    ]);
+    /*============== Location Routes ==============*/
+    Route::get('locations/{param?}', [LocationsController::class, 'index'])
+        ->name('locations.index');
+    Route::get('locations/create/{param?}', [LocationsController::class, 'create'])
+        ->name('locations.create');
+    Route::get('locations/{location}/edit/{param?}', [LocationsController::class, 'edit'])
+        ->name('locations.edit');
+    Route::get('locations/download/{param}', [LocationsController::class, 'Download'])
+        ->name('locations.download');
+    Route::resource('locations', LocationsController::class)
+        ->except(['index', 'show', 'create', 'edit']);
 
-    /*============Office locations end here========================*/
+    /*============ Designation Routes ============*/
+    Route::any('designations-sorting', [DesignationsController::class, 'sort'])
+        ->name('designations.sort');
+    Route::get('designations/download', [DesignationsController::class, 'download'])
+        ->name('designations.download');
+    Route::resource('designations', DesignationsController::class)
+        ->except(['show']);
 
-    /*============Region start here========================*/
-    Route::resource('regions', 'RegionsController',
-        ['except' => ['show']]);
+    /*============ Department Routes ============*/
+    Route::resource('departments', DepartmentsController::class)
+        ->except(['show']);
+    Route::get('departments/download', [DepartmentsController::class, 'download'])
+        ->name('departments.download');
 
-    Route::get('regions/download', [
-        'as' => 'regions.download',
-        'uses' => 'RegionsController@download',
-    ]);
+    /*============ Office Location Routes ============*/
+    Route::resource('officelocations', OfficeLocationsController::class)
+        ->except(['show']);
+    Route::get('officelocations/download', [OfficeLocationsController::class, 'download'])
+        ->name('officelocations.download');
 
-    /*============Region end here========================*/
+    /*============ Region Routes ============*/
+    Route::resource('regions', RegionsController::class)
+        ->except(['show']);
+    Route::get('regions/download', [RegionsController::class, 'download'])
+        ->name('regions.download');
 
-    /*
-    ============staging start here========================
-    */
-    Route::get('stages/{modules}', [
-        'as' => 'stages.index',
-        'uses' => 'StagingsController@index',
-    ]);
-    Route::get('stages/{modules}/create', [
-        'as' => 'stages.create',
-        'uses' => 'StagingsController@create',
-    ]);
-    Route::post('stages/{modules}', [
-        'as' => 'stages.store',
-        'uses' => 'StagingsController@store',
-    ]);
-    Route::get('stages/{modules}/edit/{stage}', [
-        'as' => 'stages.edit',
-        'uses' => 'StagingsController@edit',
-    ]);
-    Route::put('stages/{modules}/{stage}', [
-        'as' => 'stages.update',
-        'uses' => 'StagingsController@update',
-    ]);
-    Route::delete('stages/{modules}/{stages}', [
-        'as' => 'stages.destroy',
-        'uses' => 'StagingsController@destroy',
-    ]);
-    Route::delete('stage-untag/{modules}/{stageDetail}/{stage}', [
-        'as' => 'stage.details.untag',
-        'uses' => 'StagingsController@untag',
-    ]);
-
-    Route::any('stage-sorting/{modules}', [
-        'as' => 'stages.sort',
-        'uses' => 'StagingsController@sort',
-    ]);
-    /*
-    ============staging end here========================
-     */
-       
+    /*============ Staging Routes ============*/
+    Route::get('stages/{modules}', [StagingsController::class, 'index'])
+        ->name('stages.index');
+    Route::get('stages/{modules}/create', [StagingsController::class, 'create'])
+        ->name('stages.create');
+    Route::post('stages/{modules}', [StagingsController::class, 'store'])
+        ->name('stages.store');
+    Route::get('stages/{modules}/edit/{stage}', [StagingsController::class, 'edit'])
+        ->name('stages.edit');
+    Route::put('stages/{modules}/{stage}', [StagingsController::class, 'update'])
+        ->name('stages.update');
+    Route::delete('stages/{modules}/{stages}', [StagingsController::class, 'destroy'])
+        ->name('stages.destroy');
+    Route::delete('stage-untag/{modules}/{stageDetail}/{stage}', [StagingsController::class, 'untag'])
+        ->name('stage.details.untag');
+    Route::any('stage-sorting/{modules}', [StagingsController::class, 'sort'])
+        ->name('stages.sort');
 });
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');

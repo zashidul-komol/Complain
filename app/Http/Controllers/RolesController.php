@@ -167,8 +167,14 @@ class RolesController extends Controller {
         foreach ($allRoutes as $route) {
             $action = $route->getAction();
             if (array_key_exists('controller', $action)) {
-                $controllerAction = explode('@', $action['controller']);
-                $controllers[class_basename($controllerAction[0])][$controllerAction[1]] = $controllerAction[1];
+                // Only continue if '@' exists in the controller string
+                if (strpos($action['controller'], '@') !== false) {
+                    $controllerAction = explode('@', $action['controller']);
+                    $controllerName = class_basename($controllerAction[0]);
+                    $method = $controllerAction[1];
+
+                    $controllers[$controllerName][$method] = $method;
+                }
             }
         }
 

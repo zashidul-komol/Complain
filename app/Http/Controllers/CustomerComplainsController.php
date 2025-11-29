@@ -18,6 +18,7 @@ use App\User;
 use Carbon\Carbon;
 use App\Mail\ContactMail;
 use App\Mail\CustomerMail;
+use App\Mail\NotAcceptedMail;
 use App\Mail\CustomerMailMktToQA;
 use App\Mail\CustomerMailConsentLetter;
 use App\Mail\CorrectiveActionLetter;
@@ -27,6 +28,7 @@ use App\Mail\NotSatisfactoryMail;
 use App\Mail\reEvaluateCorrectiveAction;
 use App\Mail\CorrectiveActionLetterReevaluate;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class CustomerComplainsController extends Controller
 {
@@ -630,17 +632,12 @@ class CustomerComplainsController extends Controller
             $comlainTypes = CustomerComplainType::pluck('name','id');
             $comlainCategories = ComplainCategory::pluck('name','id');
             $comlainSubCategories = ComplainSubcategory::pluck('name','id');
-            //dd($comlainCategories);
             $employees = User::where('id',auth()->user()->id)
             ->get();
-            //$comlainTypes[0] = $comlainTypes[0];
-            //dd($comlainTypes->toArray());
             $products = Product::pluck('name', 'id');
 
             $divisions = Location::whereNull('parent_id')->pluck('name', 'id');
-            //dd($id);
             $Auth_user = auth()->user()->id;
-            //dd($Auth_user);
             $CustomerComplains = CustomerComplain::with([
                 'department'=>function($q){
                     return $q->select('id', 'name');
@@ -696,7 +693,81 @@ class CustomerComplainsController extends Controller
             ->where('customercomplain_id',$id)
             ->get();
            
-            return view('customerComplains.viewComplainEdit', compact('CustomerComplains', 'user_id', 'Auth_user', 'CustomerComplainLogs', 'divisions', 'Complainant_User', 'employees', 'products', 'comlainTypes', 'comlainCategories', 'comlainSubCategories'));
+            return view('customerComplains.viewComplainEdit', compact('CustomerComplains', 'user_id', 'Auth_user', 'CustomerComplainLogs', 'divisions', 'Complainant_User', 'employees', 'products', 'comlainTypes', 'comlainCategories', 'comlainSubCategories'));    
+
+        }elseif($Test == 3){
+            //dd('Komol-3');
+            $request->validate([
+            'comments' => 'required',
+            ]);
+            $Application_emp_id = CustomerComplain::select('user_id', 'complain_status')
+                        ->where('id', $id)
+                        ->get();
+            $Applicant_User_id = $Application_emp_id[0]->user_id;
+            //dd($Applicant_User_id);
+            $Application_emp_id = $Application_emp_id[0];
+            $Apply_emp_id       = $Application_emp_id['user_id'];
+            $complain_status    = $Application_emp_id['complain_status'];
+            $complainant_email  = $Application_emp_id['complainant_email'];
+            //$receiving_person__email  = $Application_emp_id['receiving_person_email'];
+            
+            $Users = User::where('id',auth()->user()->id)
+            ->get();
+            $AuthUserId = auth()->user()->id;
+            //dd($AuthUserId);
+            $Users = $Users[0];
+            $department_id = $Users['department_id'];
+            
+            
+
+            $test['customercomplain_id'] = $data['id'];
+            $test['user_id'] = auth()->user()->id;
+            $test['department_id'] = $department_id;
+            $test['result_complainant'] = $data['result_complainant'];
+            $test['corrective_action'] = $data['corrective_action'];
+            $test['issatisfactory'] = $data['issatisfactory'];
+            $test['response_complainant'] = $data['response'];
+            $test['comments'] = $data['comments'];
+            $test['created_at'] = Carbon::now();
+            $test['updated_at'] = Carbon::now();
+                           
+            //dd($test);
+            //if($data['issatisfactory'] == 'satisfactory' && $Apply_emp_id == 333){
+            //  dd($data); 
+            //}
+            $customercomplain = CustomerComplainLog::insert($test);
+            if ($customercomplain) {
+                //dd($complain_status);
+                if ($department_id == 12 && $data['issatisfactory'] == 'not_satisfactory' && $complain_status == 'Pending') {
+                    //dd('komol');
+                    $ComUpdate['complain_status'] = 'not_accepted';
+                    $ComUpdate['status'] = 'not_accepted';
+
+                    CustomerComplain::where('id',$id)->update($ComUpdate);
+
+                    $admin_email     = ['zashidul@polarbd.com'];
+                    $Company_representative_email  = $data['receiving_person_email'];
+                    Mail::to($Company_representative_email)->send(new NotAcceptedMail($data));
+                    Mail::to($admin_email)->send(new NotAcceptedMail($data));
+                    //Mail::to($complainant_email)->send(new CustomerMailMktToQA($data));
+                    //Mail::to($receiving_person_email)->send(new CustomerMailMktToQA($data));
+                    //Mail::to($Complainant_person_email)->send(new CustomerMailConsentLetter($data));
+                    
+                }
+            
+                
+                //CustomerComplain::where('id',$id)->update($ComUpdate);
+
+                $message = "You have successfully updated";
+                return redirect()->route('customerComplains.index', [])
+                    ->with('flash_success', $message);
+
+            } else {
+                $message = "Something went wrong! Please try again....";
+                return redirect()->route('customerComplains.index', [])
+                    ->with('flash_danger', $message);
+            }
+
         }else{
 
             //dd($request->toArray());
@@ -738,7 +809,7 @@ class CustomerComplainsController extends Controller
                     ->with('flash_danger', $message);
             }
 
-            //dd('Update-3');
+            
         }
 
         
@@ -795,6 +866,52 @@ class CustomerComplainsController extends Controller
 
         return view('customerComplains.processing', compact('CustomerComplains', 'divisions'));
     }
+
+     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+     public function notAccepted()
+    {
+        $divisions = Location::whereNull('parent_id')->pluck('name', 'id');
+        $CustomerComplains = CustomerComplain::with([
+                'region'=>function($q){
+                    return $q->select('id', 'name');
+                },
+                'customercomplaintype'=>function($q){
+                    return $q->select('id', 'name');
+                },
+                'department'=>function($q){
+                    return $q->select('id', 'name');
+                },
+                'division'=>function($q){
+                return $q->select('*');
+                },
+                'district'=>function($q){
+                    return $q->select('*');
+                },
+                'thana'=>function($q){
+                    return $q->select('*');
+                },
+                'customercomplainlog'=>function($q){
+                    return $q->select('*');
+                },
+                'user'=>function($q){
+                    return $q->select('*');
+                },
+                'product'=>function($q){
+                return $q->select('*');
+            },
+            ])
+            ->where('status','not_accepted')
+            ->get();
+        
+
+        return view('customerComplains.notAccepted', compact('CustomerComplains', 'divisions'));
+    }
+
 
     public function viewProcessing($id)
     {

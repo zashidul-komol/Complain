@@ -147,7 +147,7 @@ input:valid {
                             </div>  
                             
                     </div>
-                    {{ $comlainTypes->name or ''}}
+                    {{ $comlainTypes[0]->name ?? ''}}
                     <div class="form-group">
                         <label for="inputName" class="col-sm-4 ">Reference Images : </label>
                         <div class="col-sm-7">
@@ -216,9 +216,9 @@ input:valid {
                                 @php ($i=1)
                                 @foreach ($CustomerComplainLogs as $data)
                             <tr>
-                                <td>{{$data->user->name or ''}}</td>
-                                <td>{{$data->comments or ''}}</td>
-                                <td>{{$data->updated_at or ''}}</td>
+                                <td>{{$data->user->name ?? ''}}</td>
+                                <td>{{$data->comments ?? ''}}</td>
+                                <td>{{$data->updated_at ?? ''}}</td>
                             </tr>
                                 @php ($i=$i+1)
                                 @endforeach

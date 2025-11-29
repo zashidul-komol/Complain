@@ -1,51 +1,20 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\RolePermission;
-use App\SiteSetting;
+use App\Models\RolePermission;
+use App\Models\SiteSetting;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 
-class Controller extends BaseController {
-	use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+class Controller extends BaseController
+{
+    use AuthorizesRequests, ValidatesRequests;
 
-	protected $menu_list, $site_settings;
+    protected $menu_list, $site_settings;
 
 	public function __construct() {
-		$this->middleware(function ($request, $next) {
-			if ($request->user()) {
-				$rolePermissions = RolePermission::select('permission_id')
-					->with(['permission' => function ($q) {
-						$q->select('id', 'name', 'parent_id');
-					}])
-					->where('role_id', $request->user()->role_id)
-					->get()
-					->toArray();
-
-				$controllerArr = [];
-				$allIndexes = [];
-				foreach ($rolePermissions as $key => $value) {
-					if ($value['permission']['parent_id'] == null) {
-						$controllerArr[$value['permission']['id']] = $value['permission']['name'];
-					} else {
-						$allIndexes[] = $controllerArr[$value['permission']['parent_id']] . '@' . $value['permission']['name'];
-					}
-				}
-
-				$this->menu_list = $allIndexes;
-
-				view()->share('controller_list', $controllerArr);
-				view()->share('menu_list', $allIndexes);
-			}
-
-			$this->site_settings = SiteSetting::first();
-			view()->share('site_settings', $this->site_settings);
-
-			return $next($request);
-		});
 	}
 
 	public function checkUses($id, $fieldName, $usesModel) {
@@ -68,5 +37,4 @@ class Controller extends BaseController {
 		}
 
 	}
-
 }

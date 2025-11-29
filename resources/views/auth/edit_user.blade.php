@@ -53,6 +53,50 @@
                                 </span>
                             @endif
                         </div>
+                        <div class="form-group{{ $errors->has('department_id') ? ' has-error' : '' }}">
+                            <label for="designation_id" class="col-md-2 control-label require">Department</label>
+                            <div class="col-md-6">
+                            {{Form::select('department_id',$departments,$user->department_id,array('class' => 'form-control'))}}
+                            </div>
+                             @if ($errors->has('department_id'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('department_id') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="form-group{{ $errors->has('office_loc_id') ? ' has-error' : '' }}">
+                            <label for="office_loc_id" class="col-md-2 control-label require">Office Location</label>
+                            <div class="col-md-6">
+                            {{Form::select('office_loc_id',$officelocations,$user->office_loc_id,array('class' => 'form-control'))}}
+                            </div>
+                             @if ($errors->has('office_loc_id'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('office_loc_id') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="form-group{{ $errors->has('region_id') ? ' has-error' : '' }}">
+                            <label for="region_id" class="col-md-2 control-label require">Region</label>
+                            <div class="col-md-6">
+                            {{Form::select('region_id',$regions,$user->region_id,array('class' => 'form-control'))}}
+                            </div>
+                             @if ($errors->has('region_id'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('region_id') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="form-group{{ $errors->has('depot_id') ? ' has-error' : '' }}">
+                            <label for="depot_id" class="col-md-2 control-label require">Depot</label>
+                            <div class="col-md-6">
+                            {{Form::select('depot_id',$depots,$user->depot_id,array('class' => 'form-control'))}}
+                            </div>
+                             @if ($errors->has('depot_id'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('depot_id') }}</strong>
+                                </span>
+                            @endif
+                        </div>
                         <div class="form-group{{ $errors->has('mobile') ? ' has-error' : '' }}">
                             <label for="mobile" class="col-md-2 control-label require">Mobile Number</label>
                             <div class="col-md-6">

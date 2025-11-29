@@ -95,7 +95,8 @@ class DepartmentsController extends Controller
             'status' => 'required',
         ]);
 
-        $departments = Department::where('id', $id)->update($data);
+        $departments = Department::findOrFail($id);
+        $departments->update($data);
         if ($departments) {
             $message = "You have successfully updated";
             return redirect()->route('departments.index', [])

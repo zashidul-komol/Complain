@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\SiteSetting;
+use App\Models\SiteSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Redirect;

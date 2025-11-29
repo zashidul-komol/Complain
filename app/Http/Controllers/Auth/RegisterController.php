@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Depot;
-use App\Employee;
-use App\DepotUser;
-use App\Designation;
-use App\Department;
-use App\OfficeLocation;
-use App\Region;
-use App\DistributorUser;
+use App\Models\Depot;
+use App\Models\Employee;
+use App\Models\DepotUser;
+use App\Models\Designation;
+use App\Models\Department;
+use App\Models\OfficeLocation;
+use App\Models\Region;
+use App\Models\DistributorUser;
 use App\Exports\UserExport;
 use App\Http\Controllers\Controller;
-use App\Role;
-use App\User;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
@@ -148,7 +148,6 @@ class RegisterController extends Controller {
 	}
 
 	public function showUser() {
-
 		$user = User::with([
 			'designation' => function ($q) {
 				return $q->select('id', 'title', 'short_name');

@@ -95,7 +95,8 @@ class ProductsController extends Controller
             'status' => 'required',
         ]);
 
-        $products = Product::where('id', $id)->update($data);
+        $products = Product::findOrFail($id);
+        $products->update($data);
         if ($products) {
             $message = "You have successfully updated";
             return redirect()->route('products.index', [])

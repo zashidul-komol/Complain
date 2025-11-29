@@ -13,6 +13,7 @@
     <ul class="nav nav-tabs">
         <li ><a href="{{ route('customerComplains.index') }}">New</a></li>
         <li class="{{'active'}}"><a href="{{ route('customerComplains.processing') }}">Processing</a></li>
+        <li><a href="{{ route('customerComplains.notAccepted') }}">Not Accepted</a></li>
         <li><a href="{{ route('customerComplains.completed') }}">Completed</a></li>
     </ul>
 </div>
@@ -46,14 +47,14 @@
                         @foreach ($CustomerComplains as $data)
                       <tr>
                         <td>{{$i}}</td>
-                        <td>{{$data->complainant_name or ''}}</td>
-                        <td>{{$data->complainant_mobile or ''}}</td>
-                        <td>{{$data->region->name or ''}}</td>
-                        <td>{{$data->district->name or ''}}</td>
-                        <td>{{$data->area or ''}}</td>
-                        <td>{{$data->customercomplaintype->name or ''}}</td>
-                        <td>{{$data->id or ''}}</td>
-                        <td>{{$data->complain_date or ''}}</td>
+                        <td>{{$data->complainant_name ?? ''}}</td>
+                        <td>{{$data->complainant_mobile ?? ''}}</td>
+                        <td>{{$data->region->name ?? ''}}</td>
+                        <td>{{$data->district->name ?? ''}}</td>
+                        <td>{{$data->area ?? ''}}</td>
+                        <td>{{$data->customercomplaintype->name ?? ''}}</td>
+                        <td>{{$data->id ?? ''}}</td>
+                        <td>{{$data->complain_date ?? ''}}</td>
                         <td>
                           {!!  Html::decode(link_to_route('customerComplains.viewProcessing', '<span aria-hidden="true" class="fa fa-eye fa-x"></span>', array($data->id)))!!}
                           

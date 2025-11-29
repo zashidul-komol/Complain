@@ -141,7 +141,8 @@ class ZonesController extends Controller {
             ]);
         }
 
-        $zones = Zone::where('id', $id)->update($data);
+        $zones = Zone::findOrFail($id);
+        $zones->update($data);
         if ($zones) {
             $message = "You have successfully updated";
             return redirect()->route('zones.index', [$data['level'] ? $data['level'] : ''])

@@ -94,7 +94,8 @@ class CustomerComplainTypesController extends Controller
             'status' => 'required',
         ]);
 
-        $complainTypes = CustomerComplainType::where('id', $id)->update($data);
+        $complainTypes = CustomerComplainType::findOrFail($id);
+        $complainTypes->update($data);
         if ($complainTypes) {
             $message = "You have successfully updated";
             return redirect()->route('complainTypes.index', [])

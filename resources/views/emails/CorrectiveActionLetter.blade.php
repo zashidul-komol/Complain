@@ -9,7 +9,7 @@ https://complain.polarbd.com/customerComplains/view_customer_complain/{{$data['i
 আপনার মতামত আমাদের সাথে শেয়ার করার জন্য আপনাকে ধন্যবাদ।<br><br>
 
 আপনার সার্বিক সুস্থতা ও সাফল্য কামনা করছি। <br><br>
-প্রয়োজনে সরাসরি যোগাযোগ করুন – care@polarbd.com.
+প্রয়োজনে সরাসরি যোগাযোগ করুন – care@polarbd.com অথবা ০৯৬৭৭ ৩০০ ৩০০ এই নম্বরে সকাল ১০টা থেকে সন্ধ্যা ৬ টা (শনি -বৃহস্পতি) ।
 
 <br><br>
 

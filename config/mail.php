@@ -29,7 +29,7 @@ return [
 		    |
 	*/
 
-	'host' => env('MAIL_HOST', 'smtp.office365.com'),
+	'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
 
 	/*
 		    |--------------------------------------------------------------------------
@@ -56,8 +56,8 @@ return [
 	*/
 
 	'from' => [
-		'address' => env('MAIL_FROM_ADDRESS', 'zashidul.komol@gmail.com'),
-		'name' => env('MAIL_FROM_NAME', 'Polar Online Customer Complaint System'),
+		'address' => env('MAIL_FROM_ADDRESS', 'admin@polarbd.com'),
+		'name' => env('MAIL_FROM_NAME', 'Dhaka Icecreme Ltd.'),
 	],
 
 	/*
@@ -84,9 +84,9 @@ return [
 		    |
 	*/
 
-	'username' => env('MAIL_USERNAME'), //care@polarbd.com
+	'username' => env('MAIL_USERNAME'),
 
-	'password' => env('MAIL_PASSWORD'), //dnxbkztlbkcbsqnx
+	'password' => env('MAIL_PASSWORD'),
 
 	/*
 		    |--------------------------------------------------------------------------
