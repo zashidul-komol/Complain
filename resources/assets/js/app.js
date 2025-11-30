@@ -30,17 +30,17 @@ const app = new Vue({
     	host:'',
     	division_id: '',
      	district_id:'',
-      districts:[],
-      thanas:[],
-      thana_id:'',
-      region_id:'',
-      areas:[],
-      area_id:'',
-      isDistributor:'',
-      cvb1:'',
-      cvb2:'',
-      cvb3:'',
-      cvb4:''
+		districts:[],
+		thanas:[],
+		thana_id:'',
+		region_id:'',
+		areas:[],
+		area_id:'',
+		isDistributor:'',
+		cvb1:'',
+		cvb2:'',
+		cvb3:'',
+		cvb4:''
     },
     methods: {        
     	getDistricts:function(e){
@@ -98,24 +98,30 @@ const app = new Vue({
      mounted: function () {
 		if (window.laravelObj) {
 			console.log('laravelObj is loaded', window.laravelObj); 
+			console.log('laravelObj is loaded without window', laravelObj); 
+			const laravelObj = window.laravelObj;
 			this.host = laravelObj.appHost+'/';  
-			this.division_id=laravelObj.division_id||'';
-			this.districts=laravelObj.districts || null;
-			if(this.division_id){
+			this.division_id = laravelObj.division_id || '';
+			this.district_id = laravelObj.district_id || '';
+			this.thana_id = laravelObj.thana_id || '';
+			this.region_id = laravelObj.region_id || '';
+			this.area_id = laravelObj.area_id || '';
+
+			this.districts = laravelObj.districts || [];
+			this.thanas = laravelObj.thanas || [];
+			this.areas = laravelObj.areas || [];
+			// Call methods to populate dropdowns
+			if (this.division_id) {
 				this.getDistricts(this.division_id);
-			}      	
-			this.district_id=laravelObj.district_id||'';
-			this.thanas=laravelObj.thanas || null;
-			if(this.district_id){
+			}
+
+			if (this.district_id) {
 				this.getThanas(this.district_id);
-			}      	
-			this.thana_id=laravelObj.thana_id||'';
-			this.region_id=laravelObj.region_id||'';
-			this.areas=laravelObj.areas || null;
+			}
+
 			if(this.region_id){
 				this.getAreas(this.region_id);
-			}      	
-			this.area_id=laravelObj.area_id||'';
+			}     
 			this.isDistributor=Boolean(Number(laravelObj.isDistributor||'0')); //this is boolean value
 			this.cvb1 = laravelObj.cvb1||'';
 			this.cvb2 = laravelObj.cvb2||'';
