@@ -19,10 +19,22 @@ class SecurityHeaders
         //Vite::useCspNonce();
         
         $response = $next($request);
-        return $response->header('X-Content-Type-Options', 'nosniff')
-                 ->header('X-Frame-Options', 'SAMEORIGIN')
-                 ->header('X-XSS-Protection', '1; mode=block')
-                 ->header('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload')
-                 ->header('Referrer-Policy', 'no-referrer-when-downgrade');
+        return $response
+        ->header('X-Content-Type-Options', 'nosniff')
+        ->header('X-Frame-Options', 'SAMEORIGIN')
+        ->header('X-XSS-Protection', '1; mode=block')
+        ->header('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload')
+        ->header('Referrer-Policy', 'no-referrer-when-downgrade')
+        ->header(
+            'Content-Security-Policy',
+            "default-src 'self'; " .
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " .
+            "style-src 'self' 'unsafe-inline'; " .
+            "img-src 'self' data:; " .
+            "font-src 'self' data:; " .
+            "connect-src 'self'; " .
+            "object-src 'none'; " .
+            "base-uri 'self';"
+        );
     }
 }
