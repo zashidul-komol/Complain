@@ -97,6 +97,7 @@ const app = new Vue({
     }, 
      mounted: function () {
 		if (window.laravelObj) {
+			console.log('laravelObj is loaded', window.laravelObj); 
 			this.host = laravelObj.appHost+'/';  
 			this.division_id=laravelObj.division_id||'';
 			this.districts=laravelObj.districts || null;
@@ -120,6 +121,8 @@ const app = new Vue({
 			this.cvb2 = laravelObj.cvb2||'';
 			this.cvb3 = laravelObj.cvb3||'';
 			this.cvb4 = laravelObj.cvb4||'';
+		}else {
+			console.error("laravelObj is not defined!");
 		}
 	}
 });
