@@ -96,28 +96,30 @@ const app = new Vue({
     	}
     }, 
      mounted: function () {
-     	this.host = laravelObj.appHost+'/';  
-      	this.division_id=laravelObj.division_id||'';
-      	this.districts=laravelObj.districts || null;
-      	if(this.division_id){
-      		this.getDistricts(this.division_id);
-      	}      	
-      	this.district_id=laravelObj.district_id||'';
-      	this.thanas=laravelObj.thanas || null;
-      	if(this.district_id){
-      		this.getThanas(this.district_id);
-      	}      	
-      	this.thana_id=laravelObj.thana_id||'';
-      	this.region_id=laravelObj.region_id||'';
-      	this.areas=laravelObj.areas || null;
-      	if(this.region_id){
-      		this.getAreas(this.region_id);
-      	}      	
-      	this.area_id=laravelObj.area_id||'';
-      	this.isDistributor=Boolean(Number(laravelObj.isDistributor||'0')); //this is boolean value
-      	this.cvb1 = laravelObj.cvb1||'';
-      	this.cvb2 = laravelObj.cvb2||'';
-        this.cvb3 = laravelObj.cvb3||'';
-        this.cvb4 = laravelObj.cvb4||'';
+		if (window.laravelObj) {
+			this.host = laravelObj.appHost+'/';  
+			this.division_id=laravelObj.division_id||'';
+			this.districts=laravelObj.districts || null;
+			if(this.division_id){
+				this.getDistricts(this.division_id);
+			}      	
+			this.district_id=laravelObj.district_id||'';
+			this.thanas=laravelObj.thanas || null;
+			if(this.district_id){
+				this.getThanas(this.district_id);
+			}      	
+			this.thana_id=laravelObj.thana_id||'';
+			this.region_id=laravelObj.region_id||'';
+			this.areas=laravelObj.areas || null;
+			if(this.region_id){
+				this.getAreas(this.region_id);
+			}      	
+			this.area_id=laravelObj.area_id||'';
+			this.isDistributor=Boolean(Number(laravelObj.isDistributor||'0')); //this is boolean value
+			this.cvb1 = laravelObj.cvb1||'';
+			this.cvb2 = laravelObj.cvb2||'';
+			this.cvb3 = laravelObj.cvb3||'';
+			this.cvb4 = laravelObj.cvb4||'';
+		}
 	}
 });
