@@ -53,8 +53,7 @@ class HomeController extends Controller {
 		$comlainSubCategories = ComplainSubcategory::pluck('name','id');
         //dd($comlainSubCategories->toArray());
         //dd($comlainSubCategories->id);
-        $employees = User::where('id',auth()->user()->id)
-        ->get();
+        $employees = User::find(auth()->user()->id);
         //dd($employees->toArray());
         $divisions = Location::whereNull('parent_id')->pluck('name', 'id');
         $products = Product::pluck('name', 'id');
