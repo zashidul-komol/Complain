@@ -7,13 +7,15 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
- 
-import Vue from 'vue';
-import VeeValidate from 'vee-validate';
-import VeeValidateLaravel from 'vee-validate-laravel';
 
-Vue.use(VeeValidate);
-Vue.use(VeeValidateLaravel);
+import Vue from 'vue';
+ 
+try {
+    const VeeValidate = require('vee-validate');
+    Vue.use(VeeValidate);
+} catch (e) {
+    console.warn('VeeValidate not available, continuing without it');
+}
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -27,108 +29,121 @@ Vue.component('serialadd', require('./components/Serialadd.vue'));
 const app = new Vue({
     el: '#app',
     data: {
-    	host:'',
-    	division_id: '',
-     	district_id:'',
-		districts:[],
-		thanas:[],
-		thana_id:'',
-		region_id:'',
-		areas:[],
-		area_id:'',
-		isDistributor:'',
-		cvb1:'',
-		cvb2:'',
-		cvb3:'',
-		cvb4:''
+        host: window.laravelObj ? window.laravelObj.appHost + '/' : '/',
+        division_id: '',
+        district_id: '',
+        districts: [],
+        thanas: [],
+        thana_id: '',
+        region_id: '',
+        areas: [],
+        area_id: '',
+        isDistributor: false,
+        cvb1: '',
+        cvb2: '',
+        cvb3: '',
+        cvb4: ''
     },
     methods: {        
-    	getDistricts:function(e){
-            this.districts=[];
-            var divisionId = e.target ? e.target.value : e;
-			return new Promise((resolve, reject) => {
-				axios.post(this.host + 'get-district', { division_id: divisionId })
-					.then(response => {
-						this.districts = response.data;
-						resolve(response.data);
-					})
-					.catch(error => {
-						console.error('Error fetching districts:', error);
-						alert('Error fetching districts');
-						reject(error.response.data);
-					});
-			});
-    	},
-    	 getThanas:function(e){
-    	 	this.thanas=[];
-    	 	var districtId = e.target ? e.target.value : e;
-
-			return new Promise((resolve, reject) => {
-				axios.post(this.host + 'get-thanas', { district_id:districtId })
-					.then(response => {
-						this.thanas = response.data
-						resolve(response.data);
-					})
-					.catch(error => {
-						console.error('Error fetching thanas:', error);
-						alert('Error fetching Thanas');
-						reject(error.response.data);
-					});
-			});
-    	},
-    	getAreas:function(e){
-    		this.areas=[]; 
-    		var regionId = e.target ? e.target.value : e;
-    		
-			return new Promise((resolve, reject) =>{
-				axios.post(this.host+'get-areas',{region_id:regionId})
-		    	.then(response => {
-		      		// JSON responses are automatically parsed.
-		      		this.areas = response.data
-		      		resolve(response.data);
-		    	})
-		    	.catch(error => {
-						console.error('Error fetching areas:', error);
-						alert('Error fetching Areas');
-						reject(error.response.data);
-					});
-		    });
-    	}
-    }, 
-     mounted: function () {
-		if (window.laravelObj) {
-			console.log('laravelObj is loaded', window.laravelObj); 
-			console.log('laravelObj is loaded without window', laravelObj); 
-			const laravelObj = window.laravelObj;
-			this.host = laravelObj.appHost+'/';  
-			this.division_id = laravelObj.division_id || '';
-			this.district_id = laravelObj.district_id || '';
-			this.thana_id = laravelObj.thana_id || '';
-			this.region_id = laravelObj.region_id || '';
-			this.area_id = laravelObj.area_id || '';
-
-			this.districts = laravelObj.districts || [];
-			this.thanas = laravelObj.thanas || [];
-			this.areas = laravelObj.areas || [];
-			// Call methods to populate dropdowns
-			if (this.division_id) {
-				this.getDistricts(this.division_id);
-			}
-
-			if (this.district_id) {
-				this.getThanas(this.district_id);
-			}
-
-			if(this.region_id){
-				this.getAreas(this.region_id);
-			}     
-			this.isDistributor=Boolean(Number(laravelObj.isDistributor||'0')); //this is boolean value
-			this.cvb1 = laravelObj.cvb1||'';
-			this.cvb2 = laravelObj.cvb2||'';
-			this.cvb3 = laravelObj.cvb3||'';
-			this.cvb4 = laravelObj.cvb4||'';
-		}else {
-			console.error("laravelObj is not defined!");
-		}
-	}
+        getDistricts: function(e) {
+            this.districts = [];
+            this.thanas = [];
+            this.thana_id = '';
+            
+            var divisionId = e && e.target ? e.target.value : e;
+            if (!divisionId) return;
+            
+            axios.post(this.host + 'get-district', { 
+                division_id: divisionId 
+            }, {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => {
+                this.districts = response.data;
+            })
+            .catch(error => {
+                console.error('Error fetching districts:', error);
+                alert('Error fetching districts');
+            });
+        },
+        
+        getThanas: function(e) {
+            this.thanas = [];
+            this.thana_id = '';
+            
+            var districtId = e && e.target ? e.target.value : e;
+            if (!districtId) return;
+            
+            axios.post(this.host + 'get-thanas', { 
+                district_id: districtId 
+            }, {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => {
+                this.thanas = response.data;
+            })
+            .catch(error => {
+                console.error('Error fetching thanas:', error);
+                alert('Error fetching Thanas');
+            });
+        },
+        
+        getAreas: function(e) {
+            this.areas = [];
+            var regionId = e && e.target ? e.target.value : e;
+            if (!regionId) return;
+            
+            axios.post(this.host + 'get-areas', { 
+                region_id: regionId 
+            }, {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => {
+                this.areas = response.data;
+            })
+            .catch(error => {
+                console.error('Error fetching areas:', error);
+                alert('Error fetching Areas');
+            });
+        }
+    },
+    
+    mounted: function () {
+        console.log('Vue app mounted');
+        
+        // Initialize with old values
+        if (window.laravelObj) {
+            console.log('laravelObj found:', window.laravelObj);
+            
+            this.division_id = window.laravelObj.division_id || '';
+            this.district_id = window.laravelObj.district_id || '';
+            this.thana_id = window.laravelObj.thana_id || '';
+            this.region_id = window.laravelObj.region_id || '';
+            this.area_id = window.laravelObj.area_id || '';
+            
+            this.districts = window.laravelObj.districts || [];
+            this.thanas = window.laravelObj.thanas || [];
+            this.areas = window.laravelObj.areas || [];
+            
+            // Set other properties if they exist
+            if (window.laravelObj.isDistributor !== undefined) {
+                this.isDistributor = Boolean(Number(window.laravelObj.isDistributor));
+            }
+            
+            this.cvb1 = window.laravelObj.cvb1 || '';
+            this.cvb2 = window.laravelObj.cvb2 || '';
+            this.cvb3 = window.laravelObj.cvb3 || '';
+            this.cvb4 = window.laravelObj.cvb4 || '';
+        } else {
+            console.warn("laravelObj not found in window");
+        }
+    }
 });
+
+window.vueApp = app;

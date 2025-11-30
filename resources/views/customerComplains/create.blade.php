@@ -252,6 +252,8 @@ input:valid {
     laravelObj.division_id='{{ old('division_id') }}';
     laravelObj.district_id='{{ old('district_id') }}';
     laravelObj.thana_id='{{ old('thana_id') }}';
+    laravelObj.districts={!! json_encode([]) !!};
+    laravelObj.thanas={!! json_encode([]) !!};
 </script>
 @stop
 
@@ -294,5 +296,17 @@ input:valid {
             }
            });
         }); 
+</script>
+<script>
+// Debug script to identify Vue issues
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Vue available:', typeof Vue !== 'undefined');
+    console.log('Axios available:', typeof axios !== 'undefined');
+    console.log('laravelObj:', window.laravelObj);
+    
+    // Check if app element exists
+    var appElement = document.getElementById('app');
+    console.log('App element exists:', !!appElement);
+});
 </script>
 @endcomponent
