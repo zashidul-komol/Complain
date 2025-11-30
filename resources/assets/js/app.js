@@ -23,9 +23,10 @@ try {
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example', require('./components/Example.vue'));
-Vue.component('stockdetails', require('./components/Stockdetails.vue'));
-Vue.component('serialadd', require('./components/Serialadd.vue'));
+Vue.component('example', require('./components/Example.vue').default);
+Vue.component('stockdetails', require('./components/Stockdetails.vue').default);
+Vue.component('serialadd', require('./components/Serialadd.vue').default);
+
 const app = new Vue({
     el: '#app',
     data: {
