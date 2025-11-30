@@ -42,11 +42,8 @@ class CustomerComplainsController extends Controller
         $divisions = Location::whereNull('parent_id')->pluck('name', 'id');
         
         $user_id = auth()->user()->id;
-        $employees = User::where('id',auth()->user()->id)
-        ->get();
-        $employees = $employees[0];
         //dd($user_id);
-            if($employees->id == 341 ){
+            if($user_id == 341 ){
                 $CustomerComplains = CustomerComplain::with([
                     'region'=>function($q){
                         return $q->select('id', 'name');
@@ -70,7 +67,7 @@ class CustomerComplainsController extends Controller
                 //Carbon::parse($employees['birthdate'])->format('d-m-Y');
                 ->get();
                 //dd('Komol');
-            }elseif($employees->id == 341 ){
+            }elseif($user_id == 341 ){
                 $CustomerComplains = CustomerComplain::with([
                     'region'=>function($q){
                         return $q->select('id', 'name');
@@ -93,7 +90,7 @@ class CustomerComplainsController extends Controller
                 //Carbon::parse($employees['birthdate'])->format('d-m-Y');
                 ->get(); 
                 dd($CustomerComplains);
-            }elseif ($employees->id == 333) {
+            }elseif ($user_id == 333) {
                 $CustomerComplains = CustomerComplain::with([
                     'region'=>function($q){
                         return $q->select('id', 'name');
@@ -115,7 +112,7 @@ class CustomerComplainsController extends Controller
                 ->orWhere('complain_status','Marketing')
                 //Carbon::parse($employees['birthdate'])->format('d-m-Y');
                 ->get();
-            }elseif ($employees->id == 347) {
+            }elseif ($user_id == 347) {
                 $CustomerComplains = CustomerComplain::with([
                     'region'=>function($q){
                         return $q->select('id', 'name');
@@ -137,7 +134,7 @@ class CustomerComplainsController extends Controller
                 //->orWhere('complain_status','Marketing')
                 //Carbon::parse($employees['birthdate'])->format('d-m-Y');
                 ->get();
-            }elseif ($employees->id == 334) {
+            }elseif ($user_id == 334) {
                 $CustomerComplains = CustomerComplain::with([
                 'region'=>function($q){
                     return $q->select('id', 'name');
@@ -188,7 +185,7 @@ class CustomerComplainsController extends Controller
         
         //$CustomerComplains = CustomerComplain::get();
         //dd($CustomerComplains->toArray());
-        return view('customerComplains.index', compact('CustomerComplains','employees'));
+        return view('customerComplains.index', compact('CustomerComplains'));
         //return view('customerComplains.index');
     }
 
@@ -203,8 +200,7 @@ class CustomerComplainsController extends Controller
         $comlainCategories = ComplainCategory::pluck('name','id');
         $comlainSubCategories = ComplainSubcategory::pluck('name','id');
         //dd($comlainCategories);
-        $employees = User::where('id',auth()->user()->id)
-        ->get();
+        $employees = User::find(auth()->user()->id);
         //$comlainTypes[0] = $comlainTypes[0];
         //dd($comlainTypes->toArray());
         $divisions = Location::whereNull('parent_id')->pluck('name', 'id');
@@ -240,10 +236,9 @@ class CustomerComplainsController extends Controller
             'batch_no' => 'required',
             'product_id' => 'required',
             'production_date' => 'required',
+            'file' => 'nullable|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
-        $employees = User::where('id',auth()->user()->id)
-        ->get();
-        $employees = $employees[0];
+        $employees = User::find(auth()->user()->id);
         //dd($employees->toArray());
         if($request->file('file')){
             $file = $request->file('file');
@@ -253,9 +248,9 @@ class CustomerComplainsController extends Controller
             $data['file'] = $filename;
         }
         //dd($filename);
-        $data['employee_id'] = $employees['id'];
-        $data['department_id'] = $employees['department_id'];
-        $data['region_id'] = $employees['region_id'];
+        $data['employee_id'] = $employees->id;
+        $data['department_id'] = $employees->department_id;
+        $data['region_id'] = $employees->region_id;
         $data['complainant_name'] = $request['complainant_name'];
         $data['complainant_mobile'] = $request['complainant_mobile'];
         $data['complainant_email'] = $request['complainant_email'];

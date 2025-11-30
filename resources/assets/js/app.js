@@ -45,54 +45,41 @@ const app = new Vue({
     methods: {        
     	getDistricts:function(e){
             this.districts=[];
-            var divisionId;
-            if(e.target){
-            	divisionId= e.target.value;
-            }else{
-            	divisionId=e;
-            }
-			return new Promise((resolve, reject) =>{
-				axios.post(this.host+'get-district',{division_id:divisionId})
-		    	.then(response => {
-		      		// JSON responses are automatically parsed.
-		      		this.districts = response.data
-		      		resolve(response.data);
-		    	})
-		    	.catch(error => {
-		      		alert('Error')
-		      		reject(error.response.data);
-		    	})    		 
-		    });
+            var divisionId = e.target ? e.target.value : e;
+			return new Promise((resolve, reject) => {
+				axios.post(this.host + 'get-district', { division_id: divisionId })
+					.then(response => {
+						this.districts = response.data;
+						resolve(response.data);
+					})
+					.catch(error => {
+						console.error('Error fetching districts:', error);
+						alert('Error fetching districts');
+						reject(error.response.data);
+					});
+			});
     	},
     	 getThanas:function(e){
     	 	this.thanas=[];
-    	 	var districtId;
-    	 	if(e.target){
-    	 		districtId= e.target.value;
-    	 	} else{
-    	 		districtId=e;
-    	 	}      
-			return new Promise((resolve, reject) =>{
-				axios.post(this.host+'get-thanas',{district_id:districtId})
-		    	.then(response => {
-		      		// JSON responses are automatically parsed.
-		      		this.thanas = response.data
-		      		resolve(response.data);
-		    	})
-		    	.catch(error => {
-		      		alert('Error')
-		      		reject(error.response.data);
-		    	})    		 
-		    });
+    	 	var districtId = e.target ? e.target.value : e;
+
+			return new Promise((resolve, reject) => {
+				axios.post(this.host + 'get-thanas', { district_id:districtId })
+					.then(response => {
+						this.thanas = response.data
+						resolve(response.data);
+					})
+					.catch(error => {
+						console.error('Error fetching thanas:', error);
+						alert('Error fetching Thanas');
+						reject(error.response.data);
+					});
+			});
     	},
     	getAreas:function(e){
     		this.areas=[]; 
-    		var regionId;
-    		if(e.target){
-    			regionId= e.target.value;
-    		}else{
-    			regionId=e;
-    		}         
+    		var regionId = e.target ? e.target.value : e;
+    		
 			return new Promise((resolve, reject) =>{
 				axios.post(this.host+'get-areas',{region_id:regionId})
 		    	.then(response => {
@@ -101,9 +88,10 @@ const app = new Vue({
 		      		resolve(response.data);
 		    	})
 		    	.catch(error => {
-		      		alert('Error')
-		      		reject(error.response.data);
-		    	})    		 
+						console.error('Error fetching areas:', error);
+						alert('Error fetching Areas');
+						reject(error.response.data);
+					});
 		    });
     	}
     }, 

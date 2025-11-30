@@ -43,21 +43,21 @@ input:valid {
                     <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}" >
                         <label for="inputName" class="col-sm-3 require">অভিযোগ গ্রহণকারীর নাম : </label>
                         <div class="col-sm-7">
-                            {{Form::text('receiving_person_name',$employees[0]->name,array('class' => 'form-control' , 'readonly' => 'true'))}}
+                            {{Form::text('receiving_person_name',$employees->name,array('class' => 'form-control' , 'readonly' => 'true'))}}
                             {!! $errors->first('receiving_person_name', '<p class="text-danger">:message</p>' ) !!}
                         </div>
                     </div>
                     <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}" >
                         <label for="inputName" class="col-sm-3 require">অভিযোগ গ্রহণকারীর মোবাইল নম্বর : </label>
                         <div class="col-sm-7">
-                            {{Form::text('receiving_person_mobile',$employees[0]->mobile,array('class' => 'form-control', 'readonly' => 'true'))}}
+                            {{Form::text('receiving_person_mobile',$employees->mobile,array('class' => 'form-control', 'readonly' => 'true'))}}
                             {!! $errors->first('receiving_person_mobile', '<p class="text-danger">:message</p>' ) !!}
                         </div>
                     </div>
                     <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}" >
                         <label for="inputName" class="col-sm-3 require">অভিযোগ গ্রহণকারীর ইমেল : </label>
                         <div class="col-sm-7">
-                            {{Form::text('receiving_person_email',$employees[0]->email,array('class' => 'form-control' , 'readonly' => 'true'))}}
+                            {{Form::text('receiving_person_email',$employees->email,array('class' => 'form-control' , 'readonly' => 'true'))}}
                             {!! $errors->first('receiving_person_email', '<p class="text-danger">:message</p>' ) !!}
                         </div>
                     </div>
